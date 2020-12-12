@@ -11,3 +11,8 @@ class Ground_vehicle(Combat_unit):
 
         self.armor -= damage * 0.5
         print("Caused damage: {}".format(damage))
+
+
+    def __repr__(self):
+
+        return "This is a combat unit of the type {}.\nProperties\nArmor: {}\nSpeed: {}\nWeight: {}\nEngery consumption: {}\n\nIt's current charge level is {}.".format(self.vehicle_type, self.armor, self.speed, self.weight, self.energy_consumption, self.charge_level)

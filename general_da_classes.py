@@ -17,4 +17,3 @@ class Combat_unit():
             print("Charge Level is zero")
 
 
-
