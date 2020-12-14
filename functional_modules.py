@@ -1,6 +1,7 @@
 import math
+from .general_wh_processes import Functional_module
 
-class Gtp_module():
+class Gtp_module(Functional_module):
     ''' The GTP_module class represents a pick environment of an automated pick process according the goods to picker principle.
 
         Inputs:
@@ -14,8 +15,8 @@ class Gtp_module():
     '''
 
     def __init__(self, req_units_per_hour, req_lines_per_hour):
-        self.req_units_per_hour = req_units_per_hour
-        self.req_lines_per_hour = req_lines_per_hour
+
+        Functional_module.__init__(self, req_units_per_hour, req_lines_per_hour)
 
         # Following are module-specific constants
         self.cost_per_unit = 500000 # Euros per station
@@ -38,4 +39,5 @@ class Gtp_module():
 
     def __repr__(self):
         self.sizer()
-        return "Functional module: Goods to picker\nRequirement: {} order line per hour\nNeeded units: {}".format(self.req_lines_per_hour, self.module_cluster_size)
+        self.calculate_cost()
+        return "Functional module: Goods to picker\nRequirement: {} order line per hour\nNeeded units: {}\nTotal cost: {}".format(self.req_lines_per_hour, self.module_cluster_size, self.total_cost)
