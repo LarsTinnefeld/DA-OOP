@@ -35,9 +35,9 @@ class Gtp_module(Functional_module):
         Outputs: Amount of needed GTP units
         '''
         
-        self.module_cluster_size = math.ceil(
+        self.number_of_units = math.ceil(
             self.req_lines_per_hour / self.capacity_per_unit)
-        return self.module_cluster_size
+        return self.number_of_units
 
     def update_module_capacity(self):
         '''Updates the module specific capacity'''
@@ -53,14 +53,13 @@ class Gtp_module(Functional_module):
             Needed units: {}\n \
             Total cost: {}".format(
                 self.req_lines_per_hour,
-                self.module_cluster_size,
+                self.number_of_units,
                 self.total_cost
                 )
 
-
-class Manual_pick_zone(Functional_module):
+class Batch_pick_to_cart(Functional_module):
     '''
-    The Manual_pick_zone class represents a pick environment of
+    The Batch_pick_to_cart class represents a pick environment of
     a manual pick process according the picker to goods principle.
 
         Inputs:
@@ -75,5 +74,48 @@ class Manual_pick_zone(Functional_module):
 
     def __init__(self, req_units_per_hour, req_lines_per_hour):
 
-        Functional_module.__init__(
-            self, req_units_per_hour, req_lines_per_hour)
+        Functional_module.__init__(self, req_units_per_hour, req_lines_per_hour)
+
+        # Following are module-scecific constants.
+        self.cost_per_unit = 5000
+        self.capacity_per_unit = 60
+        self.sort_rate_per_hour = 240
+
+    def sizer(self):
+        '''
+        The sizer is calculating the required amount of carts to fulfill the needed capacity.
+
+        Inputs: None
+
+        Outputs: Amount of needed carts
+        '''
+        
+        self.number_of_units = math.ceil(
+            self.req_lines_per_hour / self.capacity_per_unit)
+
+        self.number_of_putwalls = math.ceil(
+            self.req_units_per_hour / self.sort_rate_per_hour) # In our simple example we ignore the cost for this equipment
+
+        return self.number_of_units
+
+    def update_module_capacity(self):
+        '''Updates the module specific capacity'''
+
+        self.capacity_per_unit = int(
+            input('Current capacity is 60. Enter new amount: '))
+
+        self.sort_rate_per_hour = int(
+            input('Current capacity is 240. Enter new amount: '))
+        
+    def __repr__(self):
+        self.sizer()
+        self.calculate_cost()
+        return "Functional module: Batch-pick to cart\n \
+            Requirement: {} order lines per hour\n \
+            Needed units: {}\n \
+            Total cost: {}".format(
+                self.req_lines_per_hour,
+                self.number_of_units,
+                self.total_cost
+                )
+
