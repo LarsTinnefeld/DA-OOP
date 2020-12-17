@@ -1,5 +1,5 @@
 import math
-from general_wh_processes import Functional_module
+from .general_wh_processes import Functional_module
 
 
 class Gtp_module(Functional_module):
